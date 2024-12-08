@@ -1,0 +1,69 @@
+def bees_between_flowers():
+    
+    s = input("Enter the string (only '|' and '*'): ").strip()
+    
+    
+    n = int(input("Enter the number of queries: "))
+    
+    
+    startIndex = []
+    print("Enter the start indices (1-indexed):")
+    for _ in range(n):
+        startIndex.append(int(input()))
+    
+    
+    endIndex = []
+    print("Enter the end indices (1-indexed):")
+    for _ in range(n):
+        endIndex.append(int(input()))
+
+    
+    nearest_left_flower = [-1] * len(s)
+    nearest_right_flower = [-1] * len(s)
+    last_flower = -1
+
+   
+    for i in range(len(s)):
+        if s[i] == '|':
+            last_flower = i
+        nearest_left_flower[i] = last_flower
+
+    
+    last_flower = -1
+    for i in range(len(s) - 1, -1, -1):
+        if s[i] == '|':
+            last_flower = i
+        nearest_right_flower[i] = last_flower
+
+    
+    bee_prefix_sum = [0] * len(s)
+    for i in range(len(s)):
+        bee_prefix_sum[i] = bee_prefix_sum[i - 1] + (1 if s[i] == '*' else 0)
+
+   
+    results = []
+    for i in range(n):
+        start = startIndex[i] - 1  
+        end = endIndex[i] - 1     
+
+        
+        left_flower = nearest_right_flower[start]
+        right_flower = nearest_left_flower[end]
+
+        if left_flower == -1 or right_flower == -1 or left_flower >= right_flower:
+            
+            results.append(0)
+        else:
+            
+            bees_count = bee_prefix_sum[right_flower] - bee_prefix_sum[left_flower]
+            results.append(bees_count)
+
+   
+    print("Output:")
+    for res in results:
+        print(res)
+
+
+
+bees_between_flowers()
+
