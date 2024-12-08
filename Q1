@@ -1,0 +1,32 @@
+def calculate_max_profit():
+
+    n = int(input("Enter the number of days: "))
+    
+    
+    if n <= 1:
+        print(0)
+        return
+
+    
+    print("Enter the prices:")
+    prices = []
+    for _ in range(n):
+        prices.append(int(input()))
+
+    
+    min_price = float('inf')
+    max_profit = 0
+
+   
+    for price in prices:
+        if price < min_price:
+            min_price = price  
+        elif price - min_price > max_profit:
+            max_profit = price - min_price  
+
+    
+    print("Maximum profit:", max_profit)
+
+
+calculate_max_profit()
+
